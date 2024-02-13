@@ -14,10 +14,8 @@ import fs from "./assets/fs.png";
 import Logout from "./screens/Logout";
  import Event from "./screens/Event";
 import Notification from "./screens/Contact Us";
-import Settings from "./screens/Settings";
 import Card from "./screens/About";
 import BuildingMap from "./screens/BuildingMap";
-// import { Card } from "react-native-paper";
 
 
 
@@ -123,7 +121,7 @@ export default function Faculte() {
           }}
           component={Card}
           /> 
-        <Drawer.Screen
+        {/* <Drawer.Screen
           name="Settings"
           options={{
             drawerLabel: "Settings",
@@ -133,7 +131,7 @@ export default function Faculte() {
             )
           }}
           component={Settings}
-        />
+        /> */}
 
        
         <Drawer.Screen

@@ -98,10 +98,7 @@ useEffect(() => {   console.log("loginpage")}
                 <TouchableOpacity
 
                   onPress={handleLogin}
-                // onPress={() => {
-
-                //   navigation.navigate('Faculte')
-                // }}
+                
                 >
                   <View style={styles.btn}>
                     <Text style={styles.btnText}>Login</Text>

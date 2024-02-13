@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -9,6 +9,8 @@ import {
   Image,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import { collection,  getDocs } from "firebase/firestore";
+import {db} from './../config/Firebase'
 
 const items = [
   {
@@ -46,6 +48,23 @@ const items = [
 ];
 
 export default function Example() {
+
+  const getEvent= async()=>{
+    const docRef = collection(db, "event");
+  const docSnap = await getDocs(docRef);
+  
+  if (docSnap) {
+    console.log("Document data:");
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+  }
+  }
+
+
+  useEffect(() => {
+    getEvent()
+  },[])
   return (
     <SafeAreaView style={{ backgroundColor: '#f3f5f9' }}>
       <ScrollView contentContainerStyle={styles.container}>

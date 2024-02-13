@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -11,6 +11,7 @@ import {
   Switch,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import auth from './../config/Firebase.js'
 
 const SECTIONS = [
   {
@@ -38,6 +39,7 @@ const SECTIONS = [
 ];
 
 export default function Settings() {
+ const  [user, setUser] = useState(null);
   const [form, setForm] = useState({
     language: 'English',
     darkMode: false,
@@ -47,7 +49,14 @@ export default function Settings() {
       Linking.openURL(url);
     };
 
-
+useEffect(()=>{
+ const user=auth.currentUser;
+ if(user){
+  setUser(user)
+ }else{
+  console.log('cannot exist user')
+ }
+},[])
   return (
     <SafeAreaView style={{ backgroundColor: '#f6f6f6' }}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -57,9 +66,9 @@ export default function Settings() {
             source={require('../assets/per.jpeg')}
             style={styles.profileAvatar} />
 
-          <Text style={styles.profileName}>Ot hdf</Text>
+          {/* <Text style={styles.profileName}>Ot hdf</Text> */}
 
-          <Text style={styles.profileEmail}>hdfpro96@gmail.com</Text>
+          <Text style={styles.profileEmail}>{user?user.email:''}</Text>
 
           {/* <TouchableOpacity
             onPress={() => {
