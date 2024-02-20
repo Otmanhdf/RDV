@@ -3,19 +3,17 @@
 import "react-native-gesture-handler";
 import { View, Text, Image,StyleSheet } from "react-native";
 import {
-  SimpleLineIcons,
-  MaterialIcons,Ionicons,
+  MaterialIcons,
   MaterialCommunityIcons
 } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { NavigationContainer} from "@react-navigation/native";
 import { DrawerItemList, createDrawerNavigator } from "@react-navigation/drawer";
 import fs from "./assets/fs.png";
 import Logout from "./screens/Logout";
  import Event from "./screens/Event";
-import Notification from "./screens/Contact Us";
 import Card from "./screens/About";
 import BuildingMap from "./screens/BuildingMap";
+import Contact from "./screens/Contact";
 
 
 
@@ -37,7 +35,6 @@ export default function Faculte() {
                     alignItems: "center",
                     borderBottomColor: "#f4f4f4",
                     borderBottomWidth: 1
-                    
                   }}
                 >
                   <Image
@@ -92,7 +89,6 @@ export default function Faculte() {
             drawerLabel: "Destination",
             title: "Choice your destination",
             drawerIcon: () => (
-              // <SimpleLineIcons name="home" size={20} color="#808080" />
               <MaterialCommunityIcons name="map-marker-radius-outline" size={24} color="black" />
             )
           }}
@@ -114,25 +110,14 @@ export default function Faculte() {
           name="About"
           options={{
             drawerLabel: "About Fsj",
-            title: "General Framework of the Faculty",
+            title: "About Fsj",
             drawerIcon: () => (
               <MaterialIcons name="event" size={20} color="#808080" />
             )
           }}
           component={Card}
           /> 
-        {/* <Drawer.Screen
-          name="Settings"
-          options={{
-            drawerLabel: "Settings",
-            title: "Settings",
-            drawerIcon: () => (
-              <SimpleLineIcons name="settings" size={20} color="#808080" />
-            )
-          }}
-          component={Settings}
-        /> */}
-
+    
        
         <Drawer.Screen
           name="Contact Us"
@@ -143,14 +128,14 @@ export default function Faculte() {
               <MaterialIcons name="contact-mail" size={20} color="#808080" />
             )
           }}
-          component={Notification}
+          component={Contact}
         />
   
            <Drawer.Screen
-          name="Logout"
+          name="Log Out"
           options={{
-            drawerLabel: "Logout",
-            title: "Logout",
+            drawerLabel: "Log Out",
+            title: "Log Out",
             
             drawerIcon: () => (
               <MaterialIcons name="logout" size={20} color="#808080" />

@@ -21,8 +21,25 @@ import {
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-useEffect(() => {   console.log("loginpage")}
-,[]);
+
+
+
+  useEffect(() => {
+    // console.log("loginpage");
+
+    // Check if a user is already signed in
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, redirect to Faculte
+        navigation.replace("Faculte");
+      }
+    });
+    // Cleanup the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
+
+
   const handleLogin = () => {
 
     if (!email || !password) {

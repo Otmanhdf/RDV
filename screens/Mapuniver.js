@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, View, Button } from "react-native";
+import { StyleSheet, View, TouchableOpacity,Text, Dimensions } from "react-native";
 import MapViewDirections from "react-native-maps-directions";
 import * as Location from 'expo-location';
 
 const GOOGLE_MAPS_APIKEY = "AIzaSyDBMDbPv7bNePHYDoGo28yK8ddrPnJ2hEY";
 
-export default function Mapuniver() {
+export default function Mapuniver({navigation}) {
 
   const route = useRoute();
   const [userLocation, setUserLocation] = useState(null);
@@ -98,13 +98,25 @@ export default function Mapuniver() {
             }}
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={8}
-            strokeColor="#1ad1ff"
+            strokeColor="#53abbc"
             mode="WALKING"
           />
         )}
       </MapView>
 
-      
+             <View style={styles.formAction}>
+                <TouchableOpacity
+
+                  onPress={()=>{
+                    navigation.goBack()
+                  }}
+                
+                >
+                  <View style={styles.btn}>
+                    <Text style={styles.btnText}>Go Back</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
     </View>
   );
 }
@@ -112,8 +124,10 @@ export default function Mapuniver() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:30,
-    marginHorizontal:10
+    marginTop:20,
+    marginHorizontal:5,
+    borderWidth:2,
+    borderColor:'#529384'
   },
   map: {
     width: "100%",
@@ -123,5 +137,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 10,
+  },
+  formAction: {
+    flex:1,
+    marginVertical: 5,
+    position:'absolute',
+    bottom:5,
+    left:(Dimensions.get('window').width/3),
+   
+  },
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    backgroundColor: '#529384',
+    borderColor: '#529384',
+  },
+  btnText: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    color: '#fff',
   },
 });

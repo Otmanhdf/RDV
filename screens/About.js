@@ -31,12 +31,7 @@ const items = [
     
   ],
 ];
-const IMAGES = [
-   
-  'https://images.unsplash.com/photo-1617704548623-340376564e68?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8dGVzbGElMjBtb2RlbCUyMHN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1639358336404-b847ac2a3272?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80',
-  'https://images.unsplash.com/photo-1652509525608-6b44097ea5a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjN8fHRlc2xhJTIwbW9kZWwlMjBzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
-];
+
 
 export default function Card({navigation}) {
   return (
@@ -50,7 +45,8 @@ export default function Card({navigation}) {
               
             </View>
 
-            {/* <Text style={styles.headerTitle}>Faculté Des Sciences El Jadida</Text> */}
+            <Text style={styles.headerTitle}>General Framework of the Faculty</Text>
+
 
             <View style={[styles.headerAction, { alignItems: 'flex-end' }]}>
              
@@ -67,17 +63,26 @@ export default function Card({navigation}) {
                 renderPagination={(index, total) => (
                   <View style={styles.photosPagination}>
                     <Text style={styles.photosPaginationText}>
-                      {index + 1} of {total}
+                      {index +1 } of {total}
                     </Text>
                   </View>
                 )}>
-                 {IMAGES.map((src, index) => (
+                
                   <Image
                     alt=""
-                    key={index}
-                    source={{ uri: src }}
+                   
+                    source={require('./../assets/ff.png')}
                     style={styles.photosImg} />
-                ))} 
+                <Image
+                    alt=""
+                   
+                    source={require('./../assets/ced.jpeg')}
+                    style={styles.photosImg} />
+                     <Image
+                    alt=""
+                   
+                    source={require('./../assets/inf.jpeg')}
+                    style={styles.photosImg} />
               
               </Swiper>
             </View>
@@ -138,7 +143,7 @@ export default function Card({navigation}) {
         </View>
       </SafeAreaView>
 
-      <View style={styles.overlay}>
+      {/* <View style={styles.overlay}>
         <View style={styles.overlayContent}>
           <View style={styles.overlayContentTop}>
           </View>
@@ -159,7 +164,7 @@ export default function Card({navigation}) {
               style={{ marginLeft: 12 }} />
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -185,9 +190,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTitle: {
-    fontSize: 19,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: '700',
     color: '#000',
+    textAlign:'center'
   },
   /** Photos */
   photos: {

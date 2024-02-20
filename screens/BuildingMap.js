@@ -12,7 +12,7 @@ import {
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 
-import {btiment,administration,mosquée,anapec,ucd,departements,bibliotheques,buvettes,toilettes,parking,blocs,amphis} from './batiment.js'
+import {administration,anapec,ucd,departements,bibliotheques,buvettes,toilettes,parking,blocs,amphis} from './batiment.js'
 
 
 
@@ -49,10 +49,7 @@ export default function BuildingMap({navigation}) {
                       <Text style={styles.cardSubtitle}>{administration.description}</Text>
                     </View>
                   </View>
-                  {/* <View style={styles.cardFooter}>
-                    <Text style={styles.cardFooterText}>{jobType}</Text>
-                    <Text style={styles.cardFooterText}>{years}</Text>
-                  </View> */}
+                 
                 </View>
               </TouchableOpacity>
            
@@ -82,10 +79,7 @@ export default function BuildingMap({navigation}) {
                       <Text style={styles.cardSubtitle}>{ucd.description}</Text>
                     </View>
                   </View>
-                  {/* <View style={styles.cardFooter}>
-                    <Text style={styles.cardFooterText}>{jobType}</Text>
-                    <Text style={styles.cardFooterText}>{years}</Text>
-                  </View> */}
+                 
                 </View>
               </TouchableOpacity>
            
@@ -115,10 +109,7 @@ export default function BuildingMap({navigation}) {
                       <Text style={styles.cardSubtitle}>{anapec.description}</Text>
                     </View>
                   </View>
-                  {/* <View style={styles.cardFooter}>
-                    <Text style={styles.cardFooterText}>{jobType}</Text>
-                    <Text style={styles.cardFooterText}>{years}</Text>
-                  </View> */}
+                 
                 </View>
               </TouchableOpacity>
            
@@ -154,7 +145,7 @@ export default function BuildingMap({navigation}) {
                   </View>
                   <View style={styles.cardFooter}>
                     <Text style={styles.cardFooterText}>{item.size} Office </Text>
-                    {/* <Text style={styles.cardFooterText}>{}</Text> */}
+                  
                   </View>
                 </View>
               </TouchableOpacity>
@@ -225,10 +216,7 @@ export default function BuildingMap({navigation}) {
                       <Text style={styles.cardSubtitle}>{item.description}</Text>
                     </View>
                   </View>
-                  {/* <View style={styles.cardFooter}>
-                    <Text style={styles.cardFooterText}>{jobType}</Text>
-                    <Text style={styles.cardFooterText}>{years}</Text>
-                  </View> */}
+              
                 </View>
               </TouchableOpacity>
             ))}
@@ -267,11 +255,7 @@ export default function BuildingMap({navigation}) {
                     </View>
                   </View>
 
-                  {/* <View style={styles.cardFooter}>
-                    <Text style={styles.cardFooterText}>{jobType}</Text>
-
-                    <Text style={styles.cardFooterText}>{years}</Text>
-                  </View> */}
+                  
                 </View>
               </TouchableOpacity>
             ))}
@@ -311,9 +295,7 @@ export default function BuildingMap({navigation}) {
                   </View>
 
                   <View style={styles.cardFooter}>
-                    {/* <Text style={styles.cardFooterText}>{item.size}</Text> */}
-
-                    {/* <Text style={styles.cardFooterText}>{years}</Text> */}
+                   
                   </View>
                 </View>
               </TouchableOpacity>
@@ -349,8 +331,7 @@ export default function BuildingMap({navigation}) {
                     </View>
                   </View>
                   <View style={styles.cardFooter}>
-                    {/* <Text style={styles.cardFooterText}>{item.img} </Text> */}
-                    {/* <Text style={styles.cardFooterText}>{}</Text> */}
+                  
                   </View>
                 </View>
               </TouchableOpacity>
@@ -382,12 +363,11 @@ export default function BuildingMap({navigation}) {
                     </View>
                     <View style={styles.cardBody}>
                       <Text style={styles.cardTitle}>{item.name.toUpperCase()}</Text>
-                      <Text style={styles.cardSubtitle}>{item.description}</Text>
+                      <Text style={styles.cardSubtitle} >{item.description}</Text>
                     </View>
                   </View>
                   <View style={styles.cardFooter}>
-                    {/* <Text style={styles.cardFooterText}>{item.size} </Text> */}
-                    {/* <Text style={styles.cardFooterText}>{}</Text> */}
+               
                   </View>
                 </View>
               </TouchableOpacity>
