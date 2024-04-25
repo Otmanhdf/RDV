@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "testcode",
-    "slug": "testcode",
+    "name": "appointment",
+    "slug": "appointment",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -33,7 +33,7 @@
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION"
       ],
-      "package": "com.othdf.testcode"
+      "package": "com.othdf.appointment"
     },
     "web": {
       "favicon": "./assets/favicon.png"
