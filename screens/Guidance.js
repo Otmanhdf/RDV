@@ -19,7 +19,7 @@ const CARD_WIDTH = Math.min(Dimensions.get("screen").width * 0.97 - 20, 400);
 export default function Guidance({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="white"  />
 
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={styles.container}>
@@ -77,26 +77,8 @@ export default function Guidance({ navigation }) {
               </Swiper>
             </View>
 
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("BlooddDC");
-              }}
-              style={styles.picker}
-            >
-              <View style={styles.pickerDates}>
-                <Image
-                  alt=""
-                  resizeMode="contain"
-                  style={styles.headerImg}
-                  source={require("../assets/gb.png")}
-                ></Image>
-              </View>
-
-              <View style={styles.pickerAction}></View>
-            </TouchableOpacity>
+           
             <View style={styles.info}>
-              {/* <Text style={styles.infoTitle}>About</Text> */}
-
               <Text style={styles.infoDescription}>
                 Blood, a vital material for the human body. Human subsistence
                 depends on this expensive material, difficult to have and easy
@@ -117,6 +99,7 @@ export default function Guidance({ navigation }) {
               >
                 {before.map((item, index) => (
                   <TouchableOpacity
+                    key={index}
                     onPress={() => {
                       navigation.navigate("BeforeD");
                     }}
@@ -158,6 +141,7 @@ export default function Guidance({ navigation }) {
               >
                 {after.map((item, index) => (
                   <TouchableOpacity
+                    key={index}
                     onPress={() => {
                       navigation.navigate("AfterD");
                     }}
@@ -195,6 +179,7 @@ export default function Guidance({ navigation }) {
               >
                 {Typ.map((item, index) => (
                   <TouchableOpacity
+                    key={index}
                     onPress={() => {
                       navigation.navigate("Type");
                     }}
@@ -226,17 +211,25 @@ export default function Guidance({ navigation }) {
                 ))}
               </ScrollView>
             </View>
-            <View style={styles.formAction}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.goBack();
-                }}
-              >
-                <View style={styles.btn}>
-                  <Text style={styles.btnText}>Go Back</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Centers");
+              }}
+              style={styles.picker}
+            >
+              <View style={styles.pickerDates}>
+                <Image
+                  alt=""
+                  resizeMode="contain"
+                  style={styles.headerImg}
+                  source={require("../assets/gb.png")}
+                ></Image>
+              </View>
+
+              <View style={styles.pickerAction}></View>
+            </TouchableOpacity>
+           
           </ScrollView>
         </View>
       </SafeAreaView>
@@ -358,7 +351,7 @@ const styles = StyleSheet.create({
   /** Info */
   info: {
     marginTop: 12,
-    backgroundColor: "#ff7d7d",
+    backgroundColor: "#e1e1e1",
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 20,
@@ -387,7 +380,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 18,
     letterSpacing: -0.078,
-    color: "white",
+    color: "black",
   },
 
   /** Button */
@@ -455,7 +448,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 10,
     borderRadius: 12,
-    backgroundColor: "#ff9b94",
+    backgroundColor: "#e1e1e1",
     // marginHorizontal: 6,
     shadowColor: "#90a0ca",
     shadowOffset: {
@@ -492,7 +485,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     lineHeight: 18,
-    color: "#e6e6e6",
+    color: "black",
   },
   cardFooter: {
     flexDirection: "row",

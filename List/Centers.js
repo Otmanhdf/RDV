@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+// import { ScrollView } from "react-native-gesture-handler";
 import DropdownFilter from "./DropdownFilter";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,80 +16,79 @@ import axios from "axios";
 const Centers = ({ navigation }) => {
   const [selectedvalueRegion, setSelectedValueRegion] = useState();
   const [regions, setRegions] = useState([]);
-  const [centres,setCentres]=useState([])
+  const [centres, setCentres] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
         const config = {
-          headers: { Authorization: `Bearer ${token} `},
+          headers: { Authorization: `Bearer ${token} ` },
         };
         const response = await axios.get(`${API_URL}/region`, config);
         setRegions(response.data);
-       
       } catch (error) {
         console.error("Erreur lors du chargement des données:", error);
       }
     };
-     
-      fetchData();
+
+    fetchData();
   }, []);
 
   return (
     <View style={styles.container}>
       <View>
-        <DropdownFilter regions={regions} setCentres={setCentres} setSelectedValueRegion={setSelectedValueRegion} selectedvalueRegion={selectedvalueRegion}></DropdownFilter>
+        <DropdownFilter
+          regions={regions}
+          setCentres={setCentres}
+          setSelectedValueRegion={setSelectedValueRegion}
+          selectedvalueRegion={selectedvalueRegion}
+        ></DropdownFilter>
         <ScrollView contentContainerStyle={styles.container}>
-          {centres && centres.map((centre, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => {
-                  navigation.navigate("Appointment", {
-                    backto: "home",centre:centre
-                  });
-                }}
-              >
-                <View style={styles.card}>
-                  <View style={styles.cardBody}>
-                    <View style={styles.cardHeader}>
-                      <Text style={styles.cardTitle}>{centre.label}</Text>
-                    </View>
-
-                    <View style={styles.cardStats}>
-                      <View style={styles.cardStatsItem}>
-                        <FeatherIcon color="#48496c" name="user" size={14} />
-
-                        <Text style={styles.cardStatsItemText}>
-                          {centre.size} Blood donor
-                        </Text>
+          {centres &&
+            centres.map((centre, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => {
+                    navigation.navigate("Appointment", {
+                      backto: "home",
+                      centre: centre,
+                    });
+                  }}
+                >
+                  <View style={styles.card}>
+                    <View style={styles.cardBody}>
+                      <View style={styles.cardHeader}>
+                        <Text style={styles.cardTitle}>{centre.label}</Text>
                       </View>
 
-                      <View style={styles.cardStatsItem}>
-                        <Text style={styles.cardStatsItemText}>
-                          {centre.id}
-                        </Text>
+                      <View style={styles.cardStats}>
+                        <View style={styles.cardStatsItem}>
+                          <FeatherIcon color="#48496c" name="user" size={14} />
 
+                          <Text style={styles.cardStatsItemText}>
+                            {centre.size} Blood donor
+                          </Text>
+                        </View>
+
+                        <View style={styles.cardStatsItem}>
+                          <Text style={styles.cardStatsItemText}>
+                            {centre.id}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
 
-                    <View style={styles.cardFooter}>
-                      <Text style={styles.cardFooterText}>{selectedvalueRegion},</Text>
-                      <View
-                        style={{
-                          height: 10,
-                          width: 10,
-                          borderRadius: 10,
-                          backgroundColor:"#34d399" 
-                        }}
-                      ></View>
+                      <View style={styles.cardFooter}>
+                        <Text style={styles.cardFooterText}>
+                          {selectedvalueRegion},
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+                </TouchableOpacity>
+              );
+            })}
         </ScrollView>
       </View>
     </View>

@@ -66,6 +66,7 @@ export default function Users({ navigation }) {
                       nom: nom,
                       prenom: prenom,
                       email: email,
+                      phone:phone,
                       id: id,
                     });
                   }}

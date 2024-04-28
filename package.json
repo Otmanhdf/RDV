@@ -27,6 +27,7 @@
     "react-native-biometrics": "^3.0.1",
     "react-native-drawer-layout": "^3.2.2",
     "react-native-element-dropdown": "^2.10.4",
+    "react-native-flash-message": "^0.4.2",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-maps": "1.10.0",

@@ -14,10 +14,11 @@ import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 import { API_URL } from "../config/ConfigApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showMessage } from "react-native-flash-message";
 const CARD_WIDTH = Math.min(Dimensions.get("screen").width * 0.75, 400);
 
 export default function Details({ route, navigation }) {
-  const { nom, prenom, email, id } = route.params;
+  const { nom, prenom, email,phone, id } = route.params;
 
   const handleDelete = async (id) => {
     try {
@@ -26,9 +27,9 @@ export default function Details({ route, navigation }) {
         headers: { Authorization: `Bearer ${token} ` },
       };
 
-      const response = await axios.delete(`${API_URL}/users/${id}`, config);
-      navigation.navigate("Users");
-      console.log(response.data);
+      await axios.delete(`${API_URL}/rendu-vous/user/${id}`, config);
+      await axios.delete(`${API_URL}/users/${id}`, config);
+      navigation.navigate("Users")
     } catch (error) {
       console.error("Error during user login :", error);
       Alert.alert("Error", error);
@@ -49,7 +50,7 @@ export default function Details({ route, navigation }) {
       );
       AsyncStorage.setItem("token", response.data);
       if (response.data) Alert.alert("Set", "Now this user become Admin");
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("Error during user login :", error);
       Alert.alert("Error", error);
@@ -89,7 +90,7 @@ export default function Details({ route, navigation }) {
                     {nom} {prenom}
                   </Text>
 
-                  <Text style={{ color: "#266EF1" }}>{email}</Text>
+                  <Text style={{ color: "#121a26" }}>{email}</Text>
                 </View>
               </View>
             </View>
@@ -109,7 +110,13 @@ export default function Details({ route, navigation }) {
 
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("UpdateUsers");
+                  navigation.navigate("UpdateUsers", {
+                    nom: nom,
+                    prenom: prenom,
+                    email: email,
+                    phone:phone,
+                    id: id,
+                  });
                 }}
                 style={{ flex: 1, paddingHorizontal: 6 }}
               >
@@ -176,7 +183,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   profileTitle: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: "bold",
     lineHeight: 32,
     color: "#121a26",

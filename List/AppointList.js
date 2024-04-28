@@ -14,10 +14,9 @@ import {
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { API_URL } from "../config/ConfigApi";
 
-
 const CARD_WIDTH = Math.min(Dimensions.get("screen").width * 1 - 20, 400);
 
-export default function AppointList({navigation}) {
+export default function AppointList({ navigation }) {
   const [rendezvous, setRendezVous] = useState([]);
   const [etat, setEtat] = useState();
   useEffect(() => {
@@ -29,7 +28,7 @@ export default function AppointList({navigation}) {
         };
         const response = await axios.get(`${API_URL}/rendu-vous`, config);
         setRendezVous(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -41,7 +40,7 @@ export default function AppointList({navigation}) {
     return unsubscribe;
   }, [navigation]);
 
-  const changerEtat = async (id, etat ) => {
+  const changerEtat = async (id, etat) => {
     try {
       const token = await AsyncStorage.getItem("token");
       const config = {
@@ -54,15 +53,13 @@ export default function AppointList({navigation}) {
         },
         config
       );
-      
-      if(response.data.etat == "0"){
-    Alert.alert(
-      "Update",
-      "rdv accpted.")}
-      if(response.data.etat == "2"){
-        Alert.alert(
-          "Update",
-          "rdv refuser.")}
+
+      if (response.data.etat == "0") {
+        Alert.alert("Update", "  Accept This Appointement  .");
+      }
+      if (response.data.etat == "2") {
+        Alert.alert("Update", " Denied This appointement .");
+      }
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -79,7 +76,7 @@ export default function AppointList({navigation}) {
             {rendezvous &&
               rendezvous.map(
                 ({ centre, creneau, date, etat, id, user }, index) => (
-                  <View style={styles.card}>
+                  <View style={styles.card} key={index}>
                     <View style={styles.cardTop}>
                       <View style={{ flexDirection: "row" }}>
                         <View style={styles.cardIcon}>
@@ -110,7 +107,9 @@ export default function AppointList({navigation}) {
                         </View>
 
                         <View style={styles.cardIcon}>
-                          <TouchableOpacity onPress={() => changerEtat(id, "2")}>
+                          <TouchableOpacity
+                            onPress={() => changerEtat(id, "2")}
+                          >
                             <FeatherIcon color="red" name="x" size={24} />
                           </TouchableOpacity>
                         </View>

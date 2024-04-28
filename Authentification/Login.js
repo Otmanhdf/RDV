@@ -8,34 +8,76 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  TextInput,
+
   Alert,
   ScrollView,
+  StatusBar,
 } from "react-native";
+import FlashMessage, { showMessage } from "react-native-flash-message";
+import { TextInput } from "react-native-paper";
 import { API_URL } from "../config/ConfigApi";
+import { verifyPassword } from "./SignUp";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
+    const validateEmail = (email) => {
+      const emailPattern = /^[^\s@]+@gmail\.com$/i;
+      return emailPattern.test(email);
+    };
+    if (!password || !email || password.length < 8 || !validateEmail(email) || !verifyPassword(password)) {
+       if (!validateEmail(email)) {
+        showMessage({
+          message: "Email no valid ..@gmail.com",
+          type: "danger",
+          style: "#ffc5c5",
+        });
+       } else if (!verifyPassword(password)){
+        showMessage({
+          message: "Password no valid must by 8 different characters",
+          type: "danger",
+          style: "#ffc5c5",
+        });
+        
+       }else {
+        showMessage({
+          message: "Tous les champs sont obligatoires",
+          type: "danger",
+          style: "#ffc5c5",
+        });
+          
+         return;
+       }
+    }else{
+
     try {
       const response = await axios.post(`${API_URL}/users/login`, {
         email: email,
         pwd: password,
       });
-      const token = response.data;
-      await AsyncStorage.setItem("token", token);
-
-      navigation.navigate("Gestion");
+      if (response.status == 201) {
+        const token = response.data;
+        await AsyncStorage.setItem("token", token);
+       
+        navigation.navigate("Gestion");
+      }
+      
     } catch (error) {
-      console.error("Error during user login :", error);
-      Alert.alert("Error", error);
-      Alert.alert("email or password incorrect");
-    }
+      if (error.response && error.response.status === 400) {
+        Alert.alert("Erreur", "Email ou mot de passe incorrect");
+      } else {
+        console.error("Erreur lors de la connexion de l'utilisateur :", error);
+      }
+    }}
   };
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <StatusBar></StatusBar>
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -46,41 +88,42 @@ export default function Login({ navigation }) {
               source={require("../assets/bd.png")}
             />
 
-            <Text style={styles.title}>
-          
-              Welcome to Blood Donation
-            </Text>
+            <Text style={styles.title}>Welcome to Blood Donation</Text>
 
             <Text style={styles.subtitle}> Login in. </Text>
           </View>
 
           <View style={styles.form}>
             <View style={styles.input}>
-            
-
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
-              
                 onChangeText={(email) => setEmail(email)}
-                placeholder="Email"
-                placeholderTextColor="#6b7280"
+                label="Email"
+                activeUnderlineColor="#575758"
+                right={<TextInput.Icon icon="email" color="#000" size={20} />}
+                keyboardType="email-address"
                 style={styles.inputControl}
                 value={email}
               />
             </View>
 
             <View style={styles.input}>
-           
-
               <TextInput
                 autoCorrect={false}
                 onChangeText={(password) => setPassword(password)}
-                placeholder=" Password"
-                placeholderTextColor="#6b7280"
+                label="Password"
+                activeUnderlineColor="#575758"
                 style={styles.inputControl}
-                secureTextEntry={true}
+                secureTextEntry={showPassword}
                 value={password}
+                right={
+                  <TextInput.Icon
+                    icon={showPassword ? "eye-off" : "eye"}
+                    onPress={() => setShowPassword(!showPassword)}
+                    color="#000"
+                    size={20} />}
+                
               />
             </View>
 
@@ -114,6 +157,7 @@ export default function Login({ navigation }) {
           </View>
         </View>
       </ScrollView>
+        <FlashMessage position="top"></FlashMessage>
     </SafeAreaView>
   );
 }
@@ -176,10 +220,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   inputControl: {
-    height: 44,
+    height: 55,
     backgroundColor: "#e8ecf4",
     paddingHorizontal: 16,
-    borderRadius: 12,
+   
     fontSize: 15,
     fontWeight: "500",
     color: "#222",

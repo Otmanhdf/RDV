@@ -28,7 +28,7 @@ export default function Settings({ navigation }) {
         };
         const response = await axios.get(`${API_URL}/users/myuser`, config);
         setUser(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -39,144 +39,134 @@ export default function Settings({ navigation }) {
 
   const handlerLogOut = async () => {
     await AsyncStorage.removeItem("token");
-    navigation.navigate("Login");
+    navigation.replace("Login");
   };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
       <View style={styles.container}>
         {user !== null ? (
-          
-            <ScrollView contentContainerStyle={styles.content}>
-              <View style={[styles.section, { paddingTop: 4 }]}>
-                <Text style={styles.sectionTitle}>Account</Text>
+          <ScrollView contentContainerStyle={styles.content}>
+            <View style={[styles.section, { paddingTop: 4 }]}>
+              <Text style={styles.sectionTitle}>Account</Text>
 
-                <View style={styles.sectionBody}>
-                  <View style={styles.card}>
-                    <View
-                      style={{
-                        backgroundColor: "#555",
-                        height: 50,
-                        width: 50,
-                        borderRadius: 5,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginRight:10
-                      }}
-                    >
-                      <Text
-                        style={{ color: "#fff" }}
-                      >{`${user.nom[0]}${user.prenom[0]}`}</Text>
-                    </View>
-                    <View style={styles.profileBody}>
-                      <Text style={styles.cardTitle}>
-                        {user.nom + " " + user.prenom}
-                      </Text>
-
-                      <Text style={styles.profileHandle}>{user.email}</Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-
-              <View style={[styles.section, { paddingHorizontal: 20 }]}>
-                <Text style={styles.sectionTitle}>Personal information</Text>
-
-                <View style={[styles.sectionBody]}>
-                  <View style={[styles.rowWrapper, styles.rowFirst]}>
-                    <View style={styles.row}>
-                      <Text style={styles.rowLabel}>Firstname</Text>
-
-                      <View style={styles.rowSpacer} />
-
-                      <Text style={styles.rowValue}>{user.prenom}</Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.rowWrapper}>
-                    <View style={styles.row}>
-                      <Text style={styles.rowLabel}>lastname</Text>
-
-                      <View style={styles.rowSpacer} />
-
-                      <Text style={styles.rowValue}>{user.nom}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.rowWrapper}>
-                    <View style={styles.row}>
-                      <Text style={styles.rowLabel}>Phone</Text>
-
-                      <View style={styles.rowSpacer} />
-
-                      <Text style={styles.rowValue}>(+212) {user.phone}</Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Login Information</Text>
-
-                <View style={styles.sectionBody}>
-                  <View style={[styles.rowWrapper, styles.rowFirst]}>
-                    <View style={styles.row}>
-                      <Text style={styles.rowLabel}>Email</Text>
-
-                      <View style={styles.rowSpacer} />
-                      <Text style={styles.rowValue}>{user.email}</Text>
-
-                      <FeatherIcon
-                        color="#bcbcbc"
-                        name="chevron-right"
-                        size={19}
-                      />
-                    </View>
-                  </View>
-
-                  <View style={styles.rowWrapper}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        // handle onPress
-                      }}
-                      style={styles.row}
-                    >
-                      <Text style={styles.rowLabel}>Update password</Text>
-
-                      <View style={styles.rowSpacer} />
-
-                      <FeatherIcon
-                        color="#bcbcbc"
-                        name="chevron-right"
-                        size={19}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-
-              <View style={styles.section}>
-                <View style={styles.sectionBody}>
+              <View style={styles.sectionBody}>
+                <View style={styles.card}>
                   <View
-                    style={[
-                      styles.rowWrapper,
-                      styles.rowFirst,
-                      styles.rowLast,
-                      { alignItems: "center" },
-                    ]}
+                    style={{
+                      backgroundColor: "#555",
+                      height: 50,
+                      width: 50,
+                      borderRadius: 50,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRight: 10,
+                    }}
                   >
-                    <TouchableOpacity
-                      onPress={handlerLogOut}
-                      style={styles.row}
-                    >
-                      <Text style={[styles.rowLabel, styles.rowLabelLogout]}>
-                        Log Out
-                      </Text>
-                    </TouchableOpacity>
+                    <Text
+                      style={{ color: "#fff" }}
+                    >{`${user.nom[0]}${user.prenom[0]}`}</Text>
+                  </View>
+
+                  <View style={styles.profileBody}>
+                    <Text style={styles.cardTitle}>
+                      {user.nom + " " + user.prenom}
+                    </Text>
+
+                    <Text style={styles.profileHandle}>{user.email}</Text>
                   </View>
                 </View>
               </View>
-            </ScrollView>
-         
+            </View>
+
+            <View style={[styles.section, { paddingHorizontal: 20 }]}>
+              <Text style={styles.sectionTitle}>Personal information</Text>
+
+              <View style={[styles.sectionBody]}>
+                <View style={[styles.rowWrapper, styles.rowFirst]}>
+                  <View style={styles.row}>
+                    <Text style={styles.rowLabel}>Firstname</Text>
+
+                    <View style={styles.rowSpacer} />
+
+                    <Text style={styles.rowValue}>{user.prenom}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.rowWrapper}>
+                  <View style={styles.row}>
+                    <Text style={styles.rowLabel}>lastname</Text>
+
+                    <View style={styles.rowSpacer} />
+
+                    <Text style={styles.rowValue}>{user.nom}</Text>
+                  </View>
+                </View>
+                <View style={styles.rowWrapper}>
+                  <View style={styles.row}>
+                    <Text style={styles.rowLabel}>Phone</Text>
+
+                    <View style={styles.rowSpacer} />
+
+                    <Text style={styles.rowValue}>(+212) {user.phone}</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Login Information</Text>
+
+              <View style={styles.sectionBody}>
+                <View style={[styles.rowWrapper, styles.rowFirst]}>
+                  <View style={styles.row}>
+                    <Text style={styles.rowLabel}>Email</Text>
+
+                    <View style={styles.rowSpacer} />
+                    <Text style={styles.rowValue}>{user.email}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.rowWrapper}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      // handle onPress
+                    }}
+                    style={styles.row}
+                  >
+                    <Text style={styles.rowLabel}>Update password</Text>
+
+                    <View style={styles.rowSpacer} />
+
+                    <FeatherIcon
+                      color="#bcbcbc"
+                      name="chevron-right"
+                      size={19}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.section}>
+              <View style={styles.sectionBody}>
+                <View
+                  style={[
+                    styles.rowWrapper,
+                    styles.rowFirst,
+                    styles.rowLast,
+                    { alignItems: "center" },
+                  ]}
+                >
+                  <TouchableOpacity onPress={handlerLogOut} style={styles.row}>
+                    <Text style={[styles.rowLabel, styles.rowLabelLogout]}>
+                      Log Out
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </ScrollView>
         ) : (
           <ActivityIndicator></ActivityIndicator>
         )}
@@ -252,7 +242,7 @@ const styles = StyleSheet.create({
 
   /** Profile */
   profile: {
-    marginRight:20,
+    marginRight: 20,
     padding: 12,
     backgroundColor: "#fff",
     borderRadius: 12,
@@ -261,7 +251,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   card: {
-    flexDirection:"row",
+    flexDirection: "row",
     width: CARD_WIDTH,
     paddingVertical: 16,
     paddingHorizontal: 10,
@@ -288,7 +278,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 15,
     fontWeight: "600",
-    color: "#000",
+    color: "#121a26",
     marginBottom: 8,
   },
   profileBody: {
@@ -297,7 +287,7 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#292929",
+    color: "#121a26",
   },
   profileHandle: {
     marginTop: 2,

@@ -11,12 +11,13 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { API_URL } from "../config/ConfigApi";
 
 const CARD_WIDTH = Math.min(Dimensions.get("screen").width * 1 - 20, 400);
 
-export default function MyAppointment({navigation}) {
+export default function MyAppointment({ navigation }) {
   const [rendezvous, setRendezVous] = useState([]);
 
   useEffect(() => {
@@ -28,16 +29,36 @@ export default function MyAppointment({navigation}) {
         };
         const response = await axios.get(`${API_URL}/rendu-vous`, config);
         setRendezVous(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error("Error loading data:", error);
       }
     };
     const unsubscribe = navigation.addListener("focus", () => {
-        fetchData();
-      });
-      return unsubscribe;
+      fetchData();
+    });
+    return unsubscribe;
   }, [navigation]);
+  const handlerSupprimer = async (id) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const config = {
+        headers: { Authorization:` Bearer ${token}` },
+      };
+      await axios.delete(`${API_URL}/rendu-vous/${id}`, config);
+      const response = await axios.get(`${API_URL}/rendu-vous`, config);
+       showMessage({
+         message: "Votre rendez-vous a été supprimer avec succès",
+         type: "success",
+         
+       });
+      setRendezVous(response.data);
+      console.log(response.data);
+
+    } catch (error) {
+      console.error("Erreur lors de suppression des données:", error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FBFCFF" }}>
@@ -51,15 +72,17 @@ export default function MyAppointment({navigation}) {
             {rendezvous ? (
               rendezvous.map(
                 ({ centre, creneau, date, etat, id, user }, index) => (
-                  <View style={styles.card}>
+                  <View style={styles.card} key={index}>
                     <View style={styles.cardTop}>
                       <View style={{ flexDirection: "row" }}>
                         <View style={styles.cardIcon}>
-                          <FeatherIcon color="red" name="heart" size={24} />
+                          <FeatherIcon color="red" name="file-text" size={30} />
                         </View>
 
                         <View style={styles.cardBody}>
-                          <Text style={styles.cardTitle}></Text>
+                          <Text style={styles.cardTitle}>
+                        {user.nom  + " " + user.prenom}
+                          </Text>
 
                           <Text style={styles.cardSubtitle}>
                             {centre.label}
@@ -67,28 +90,51 @@ export default function MyAppointment({navigation}) {
                         </View>
                       </View>
                       <View style={{ flexDirection: "row" }}>
+                        <View style={styles.cardIcon}>
+                          <FeatherIcon
+                            color="red"
+                            name="trash"
+                            size={24}
+                            onPress={() =>
+                              Alert.alert(
+                                "Confirmation",
+                                "Voulez-vous suprimer le rendez vous ?",
+                                [
+                                  
+                                  {
+                                    text: "Annuler",
+                                    style: "cancel",
+                                  },
+                                  {
+                                    text: "Ok",
+                                    onPress: () => {
+                                      handlerSupprimer(
+                                        id
+                                      );
+                                    },
+                                  },
+                                 
+                                ]
+                              )
+                            }
+                          />
+                        </View>
                         {etat == "0" && (
                           <View style={styles.cardIcon}>
-                            <FeatherIcon
-                              color="green"
-                              name="check-circle"
-                              size={24}
-                            />
+                             <Text style={{fontSize:8,fontWeight:'bold',color:"green"}}>Accepted</Text>
                           </View>
                         )}
 
-                          {etat == "2" && (
-                        <View style={styles.cardIcon}>
-                            <FeatherIcon color="red" name="x" size={24} />
-                        </View>
-                          )
-                          }
-                            {etat == "1" && (
-                        <View style={styles.cardIcon}>
-                            <FeatherIcon color="blue" name="loader" size={24} />
-                        </View>
-                          )
-                          }
+                        {etat == "2" && (
+                          <View style={styles.cardIcon}>
+                             <Text style={{fontSize:8,fontWeight:'bold',color:"red"}}>Denied</Text>
+                          </View>
+                        )}
+                        {etat == "1" && (
+                          <View style={styles.cardIcon}>
+                            <Text style={{fontSize:8,fontWeight:'bold',color:"orange"}}>Progress</Text>
+                          </View>
+                        )}
                       </View>
                     </View>
 
@@ -105,10 +151,11 @@ export default function MyAppointment({navigation}) {
                 )
               )
             ) : (
-              <Text>not appointment found</Text>
+              <Text>no appointment found</Text>
             )}
           </ScrollView>
         </View>
+        <FlashMessage position="top"></FlashMessage>
       </View>
     </SafeAreaView>
   );

@@ -9,11 +9,12 @@ import {
   ScrollView,
 } from "react-native";
 
-import FeatherIcon from "react-native-vector-icons/Feather";
+// import FeatherIcon from "react-native-vector-icons/Feather";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../config/ConfigApi";
 import axios from "axios";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 const Appointment = ({ route, navigation }) => {
   const [date, setDate] = useState(new Date());
@@ -59,7 +60,6 @@ const Appointment = ({ route, navigation }) => {
     const { centre } = route.params;
 
     try {
-      
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(`${API_URL}/rendu-vous`, {
         method: "POST",
@@ -68,16 +68,25 @@ const Appointment = ({ route, navigation }) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          date:date,
-          etat:"1",
-          centre:centre,
-          creneau:slectedSlot,
-          user:user,
+          date: date,
+          etat: "1",
+          centre: centre,
+          creneau: slectedSlot,
+          user: user,
         }),
       });
-      if (response.ok) Alert.alert("Saved", "Appointment is add with success");
+      if (response.ok) {
+        showMessage({
+          message: "Appointmenet added with success",
+          type: "success",
+        });
+
+        setTimeout(() => {
+          navigation.navigate("MyAppointment");
+        }, 1000);
+      }
       if (!response.ok) Alert.alert("Error", "Appointment is denied");
-      console.log(response.status);
+      // console.log(response.status);
     } catch (error) {
       console.error("Error recording appointment :", error);
     }
@@ -98,13 +107,9 @@ const Appointment = ({ route, navigation }) => {
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.header}>
-            <View style={[styles.headerAction, { alignItems: "flex-end" }]}>
-              <TouchableOpacity
-                onPress={() => {
-                  // handle onPress
-                }}
-              ></TouchableOpacity>
-            </View>
+            <View
+              style={[styles.headerAction, { alignItems: "flex-end" }]}
+            ></View>
           </View>
           <View style={styles.form}>
             <Text style={styles.inputLabel}>Choose day:</Text>
@@ -158,7 +163,22 @@ const Appointment = ({ route, navigation }) => {
             </View>
 
             <View style={styles.formAction}>
-              <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() =>
+                  Alert.alert(
+                    "Confirmation",
+                    `Are you sure to book the appointment ?`,
+                    [
+                      { text: "Cancel", style: "cancel" },
+                      {
+                        text: "Ok",
+                        onPress: () => handleSubmit(),
+                      },
+                    ]
+                  )
+                }
+              >
                 <Text style={styles.btnText}>Save</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -172,6 +192,7 @@ const Appointment = ({ route, navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
+        <FlashMessage position="top"></FlashMessage>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -233,8 +254,9 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 20,
-    fontWeight: "400",
-    color: "#222",
+    marginTop: -20,
+    fontWeight: "500",
+    color: "#121a26",
     marginBottom: 8,
   },
   inputControl: {
@@ -245,7 +267,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: "black",
-    marginBottom: 18,
+    marginBottom: 40,
     marginTop: 10,
   },
   /** Button */

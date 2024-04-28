@@ -22,7 +22,7 @@ export default function DropdownFilter(props) {
       };
       const response = await axios.get(`${API_URL}/ville/villes/${id}`, config);
       setValueVille(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("Erreur lors du chargement des données:", error);
     }
@@ -39,7 +39,7 @@ export default function DropdownFilter(props) {
         config
       );
       props.setCentres(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("Erreur lors du chargement des données:", error);
     }

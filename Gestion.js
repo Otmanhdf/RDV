@@ -29,6 +29,20 @@ const Drawer = createDrawerNavigator();
 
 const userlist = [
   {
+    name: "Guidance",
+    drawerLabel: "Guidance",
+    title: "Guidance",
+    drawerIcon: () => (
+      <MaterialCommunityIcons
+        name="book-information-variant"
+        size={24}
+        color="black"
+      />
+    ),
+
+    component: Guidance,
+  },
+  {
     name: "Centers",
     drawerLabel: "Centers",
     title: "Choose  center",
@@ -45,20 +59,6 @@ const userlist = [
       <MaterialCommunityIcons name="calendar" size={24} color="black" />
     ),
     component: MyAppointment,
-  },
-  {
-    name: "Guidance",
-    drawerLabel: "Guidance",
-    title: "Guidance",
-    drawerIcon: () => (
-      <MaterialCommunityIcons
-        name="book-information-variant"
-        size={24}
-        color="black"
-      />
-    ),
-
-    component: Guidance,
   },
 ];
 const adminlist = [
@@ -92,18 +92,18 @@ export default function Gestion() {
           headers: { Authorization: `Bearer ${token}` },
         };
         const response = await axios.get(`${API_URL}/users/myuser`, config);
-        
-        if(response.data.role==="admin"){
-          setdrawerlist(drawerlist.concat(adminlist));
+
+        if (response.data.role === "admin") {
+          setdrawerlist(adminlist);
+        } else {
+          setdrawerlist(userlist);
         }
-         
       } catch (error) {
         console.error("Error loading data:", error);
       }
     };
 
     fetchData();
-   
   }, []);
   return (
     <Drawer.Navigator

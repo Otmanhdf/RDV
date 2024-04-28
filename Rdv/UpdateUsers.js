@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -7,29 +9,55 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  StatusBar,
 } from "react-native";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { API_URL } from "../config/ConfigApi";
 
-export default function UpdateUsers({ navigation }) {
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+export default function UpdateUsers({route, navigation }) {
+  
 
-  const handleSubmit = () => {
-    // Logique pour enregistrer les données du formulaire
-    Alert.alert(
-      "Updating confirmed",
-      "Your Update has been successfully registered!"
-    );
+  const [lastName, setLastName] = useState(route.params.nom);
+  const [firstName, setFirstName] = useState(route.params.prenom);
+  const [email, setEmail] = useState(route.params.email);
+  const [phone, setPhone] = useState(route.params.phone);
+
+  const handlerUpdate = async (id) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const config = {
+        headers: { Authorization:` Bearer ${token}` },
+      };
+      
+      const response = await axios.patch(`${API_URL}/users/${id}`,{
+        nom : lastName,
+        prenom : firstName, 
+        email:email,
+        phone:phone
+      }, config);
+       showMessage({
+         message: "Your  profile has been updated successfully",
+         type: "success",
+         
+       });
+      
+      //  await AsyncStorage.setItem("token",response.data);
+       setTimeout(() => {
+        navigation.navigate("Users")
+       }, 1000);
+
+    } catch (error) {
+      console.error("Erreur lors de suppression des données:", error);
+    }
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <StatusBar></StatusBar>
       <View style={styles.container}>
         <KeyboardAwareScrollView>
           <View style={styles.header}>
-            <Text style={styles.title}>Create account</Text>
+            <Text style={styles.title}>update account</Text>
           </View>
 
           <View style={styles.form}>
@@ -61,10 +89,7 @@ export default function UpdateUsers({ navigation }) {
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Email </Text>
               <TextInput
-                // autoCapitalize="none"
-                // autoCorrect={false}
-                // clearButtonMode="while-editing"
-                // keyboardType="Phone Number"
+                
                 onChangeText={(email) => setEmail(email)}
                 placeholder=""
                 placeholderTextColor="#6b7280"
@@ -89,24 +114,12 @@ export default function UpdateUsers({ navigation }) {
               />
             </View>
 
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>Password</Text>
-
-              <TextInput
-                // autoCorrect={false}
-                // clearButtonMode="while-editing"
-                onChangeText={(password) => setPassword(password)}
-                placeholder=""
-                placeholderTextColor="#6b7280"
-                style={styles.inputControl}
-                secureTextEntry={true}
-                value={password}
-              />
-            </View>
+            
 
             <View style={styles.formAction}>
               <TouchableOpacity
-                onPress={handleSubmit}
+                onPress={
+                  ()=>handlerUpdate(route.params.id)}
                 // onPress={() => {
                 //   console.log("pressed");
                 //   handleSave();
@@ -130,6 +143,7 @@ export default function UpdateUsers({ navigation }) {
             </View>
           </View>
         </KeyboardAwareScrollView>
+        <FlashMessage position="top"></FlashMessage>
       </View>
     </SafeAreaView>
   );
